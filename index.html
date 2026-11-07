@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Čelovka</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Google Tag / Analytics -->
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TFFZPSWS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .container {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            color: #38bdf8;
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .category-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .category-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+        .btn-sub {
+            background: transparent;
+            border: 1px solid #0ea5e9;
+            color: #38bdf8;
+            padding: 8px 12px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-sub:last-child {
+            margin-bottom: 0;
+        }
+        .btn-sub:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+        .btn-sub.active {
+            background: #0ea5e9;
+            color: #fff;
+            border-color: #0284c7;
+        }
+        .btn-main {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            margin-bottom: 20px;
+            transition: transform 0.1s;
+        }
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+        .footer-link {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .footer-link:hover {
+            color: #cbd5e1;
+        }
+        .share-btn {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #cbd5e1;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Hrací obrazovka */
+        .hidden {
+            display: none !important;
+        }
+        .word-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #38bdf8;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            background: #1f2937;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #374151;
+        }
+        .game-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .btn-action {
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn-success { background: #10b981; color: white; }
+        .btn-skip { background: #ef4444; color: white; }
+        .score-info {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        .back-menu-btn {
+            background: transparent;
+            border: 1px solid #4b5563;
+            color: #94a3b8;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .back-menu-btn:hover {
+            background: #1f2937;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="share-btn" title="Sdílet hru">🔗</button>
+        
+        <!-- ÚVODNÍ MENU -->
+        <div id="setupScreen">
+            <h1>Čelovka</h1>
+            <div class="subtitle">Inspirováno TV pořadem Partička</div>
+
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-title">👤 Reálné postavy</div>
+                    <button class="btn-sub" data-cat="cz">České</button>
+                    <button class="btn-sub" data-cat="en">Zahraniční</button>
+                </div>
+                <div class="category-card">
+                    <div class="category-title">🎬 Filmové postavy</div>
+                    <button class="btn-sub" data-cat="film">Hrané</button>
+                    <button class="btn-sub" data-cat="pohadky">Pohádky</button>
+                    <button class="btn-sub" data-cat="anim">Animované</button>
+                </div>
+            </div>
+
+            <button class="btn-main" id="startBtn">SPUSTIT HRU</button>
+
+            <div>
+                <a href="https://ko-fi.com/mirekkrbec" target="_blank" class="footer-link">☕ Podpořit vývoj kávou</a>
+            </div>
+        </div>
+
+        <!-- HRACÍ OBRAZOVKA (BEZ ČASOVAČE) -->
+        <div id="gameScreen" class="hidden">
+            <div class="score-info" id="scoreInfo">Uhodnuto: 0</div>
+            <div class="word-display" id="wordDisplay">Načítám...</div>
+            <div class="game-controls">
+                <button class="btn-action btn-skip" id="skipBtn">Změnit / Přeskočit</button>
+                <button class="btn-action btn-success" id="correctBtn">Uhodnuto!</button>
+            </div>
+            <button class="back-menu-btn" id="backMenuBtn">← Zpět do menu</button>
+        </div>
+    </div>
+
+    <script>
+        // Základní slovník slov pro jednotlivé kategorie
+        const wordDatabase = {
+            cz: ["Karel Gott", "Jaromír Jágr", "Jan Žižka", "Václav Havel", "Jiřina Bohdalová", "Ester Ledecká"],
+            en: ["Elon Musk", "Arnold Schwarzenegger", "Keanu Reeves", "Taylor Swift", "Michael Jackson", "Tom Cruise"],
+            film: ["Harry Potter", "James Bond", "Jack Sparrow", "Indiana Jones", "Sherlock Holmes", "Darth Vader"],
+            pohadky: ["Krakonoš", "Princezna ze mlejna", "Trautenberk", "Rumcajs", "Popelka", "Arabela"],
+            anim: ["Shrek", "Homer Simpson", "Mickey Mouse", "Spongebob", "Kung Fu Panda", "Blesk McQueen"]
+        };
+
+        // Výběr kategorií v menu
+        const subButtons = document.querySelectorAll('.btn-sub');
+        subButtons.forEach(btn => {
+            btn.addEventListener('click', () => btn.classList.toggle('active'));
+        });
+
+        let activeWords = [];
+        let score = 0;
+
+        const setupScreen = document.getElementById('setupScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const scoreInfo = document.getElementById('scoreInfo');
+
+        // Spuštění hry
+        document.getElementById('startBtn').addEventListener('click', () => {
+            activeWords = [];
+            document.querySelectorAll('.btn-sub.active').forEach(btn => {
+                const cat = btn.getAttribute('data-cat');
+                if (wordDatabase[cat]) {
+                    activeWords.push(...wordDatabase[cat]);
+                }
+            });
+
+            if (activeWords.length === 0) {
+                alert('Prosím, vyber alespoň jednu kategorii!');
+                return;
+            }
+
+            // Promíchat slova
+            activeWords.sort(() => Math.random() - 0.5);
+            score = 0;
+            updateScore();
+
+            setupScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            nextWord();
+        });
+
+        function nextWord() {
+            if (activeWords.length === 0) {
+                // Pokud dojdou slova, zamícháme je znovu, ať se to necyklí
+                document.querySelectorAll('.btn-sub.active').forEach(btn => {
+                    const cat = btn.getAttribute('data-cat');
+                    if (wordDatabase[cat]) activeWords.push(...wordDatabase[cat]);
+                });
+                activeWords.sort(() => Math.random() - 0.5);
+            }
+            wordDisplay.innerText = activeWords.pop();
+        }
+
+        function updateScore() {
+            scoreInfo.innerText = `Uhodnuto: ${score}`;
+        }
+
+        // Tlačítko Uhodnuto
+        document.getElementById('correctBtn').addEventListener('click', () => {
+            score++;
+            updateScore();
+            nextWord();
+        });
+
+        // Tlačítko Přeskočit / Změnit
+        document.getElementById('skipBtn').addEventListener('click', () => {
+            nextWord();
+        });
+
+        // Návrat do menu
+        document.getElementById('backMenuBtn').addEventListener('click', () => {
+            gameScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+        });
+
+        // Sdílení
+        const shareBtn = document.querySelector('.share-btn');
+        if (shareBtn) {
+            shareBtn.addEventListener('click', async () => {
+                if (navigator.share) {
+                    try {
+                        await navigator.share({ title: 'Čelovka', url: window.location.href });
+                    } catch (e) {}
+                } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Odkaz zkopírován do schránky!');
+                }
+            });
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
