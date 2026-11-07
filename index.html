@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Čelovka</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Google Tag / Analytics -->
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TFFZPSWS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .container {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            color: #38bdf8;
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .category-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 14px;
+            padding: 14px;
+        }
+        .category-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+        .btn-sub {
+            background: transparent;
+            border: 1px solid #0ea5e9;
+            color: #38bdf8;
+            padding: 8px 12px;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn-sub:last-child {
+            margin-bottom: 0;
+        }
+        .btn-sub:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+        .btn-sub.active {
+            background: #0ea5e9;
+            color: #fff;
+            border-color: #0284c7;
+        }
+        .btn-main {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+            margin-bottom: 12px;
+            transition: transform 0.1s;
+        }
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+        .btn-start {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+            margin-bottom: 20px;
+        }
+        .footer-link {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .footer-link:hover {
+            color: #cbd5e1;
+        }
+        .share-btn {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #cbd5e1;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Hrací obrazovka */
+        .card-box {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 32px 16px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+        }
+        .category-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            color: #38bdf8;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .word-display {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .game-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .btn-action {
+            padding: 18px;
+            border-radius: 14px;
+            border: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .btn-uhadl { 
+            background: #ef4444; 
+            color: white; 
+        }
+        .btn-neuhadl { 
+            background: #10b981; 
+            color: white; 
+        }
+        .back-menu-btn {
+            background: transparent;
+            border: 1px solid #374151;
+            color: #94a3b8;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .back-menu-btn:hover {
+            background: #1f2937;
+            color: #fff;
+        }
+
+        /* Výsledková obrazovka */
+        .result-card {
+            background: #0f172a;
+            border: 1px solid #10b981;
+            border-radius: 16px;
+            padding: 24px 16px;
+            margin: 20px 0;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+        }
+        .result-title-text {
+            color: #38bdf8;
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+        .result-message {
+            color: #34d399;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .score-box {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .score-col {
+            text-align: center;
+        }
+        .score-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        .score-num {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .last-word-info {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .last-word-info span {
+            color: #ffffff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button class="share-btn" id="shareBtn" title="Sdílet hru">🔗</button>
+        
+        <!-- ÚVODNÍ MENU -->
+        <div id="setupScreen">
+            <h1>Čelovka</h1>
+            <div class="subtitle">Spoluhráč hádá – ty ovládáš hru</div>
+
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-title">👤 Reálné postavy</div>
+                    <button class="btn-sub" data-cat="cz" data-label="ČESKÉ POSTAVY">České</button>
+                    <button class="btn-sub" data-cat="en" data-label="ZAHRANIČNÍ POSTAVY">Zahraniční</button>
+                </div>
+                <div class="category-card">
+                    <div class="category-title">🎬 Filmové postavy</div>
+                    <button class="btn-sub" data-cat="film" data-label="HRANÉ FILMOVÉ">Hrané</button>
+                    <button class="btn-sub" data-cat="pohadky" data-label="POHÁDKY">Pohádky</button>
+                    <button class="btn-sub" data-cat="anim" data-label="ANIMOVANÉ FILMY">Animované</button>
+                </div>
+            </div>
+
+            <button class="btn-main btn-start" id="startBtn">SPUSTIT HRU</button>
+
+            <div>
+                <a href="https://ko-fi.com/mirekkrbec" target="_blank" class="footer-link">☕ Podpořit vývoj kávou</a>
+            </div>
+        </div>
+
+        <!-- HRACÍ OBRAZOVKA -->
+        <div id="gameScreen" class="hidden">
+            <h1>Čelovka</h1>
+            <div class="subtitle">Spoluhráč hádá – ty ovládáš hru</div>
+
+            <div class="card-box">
+                <div class="category-label" id="categoryLabel">HRANÉ FILMOVÉ</div>
+                <div class="word-display" id="wordDisplay">James Bond</div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-action btn-uhadl" id="uhadlBtn">UHÁDL</button>
+                <button class="btn-action btn-neuhadl" id="neuhadlBtn">NEUHÁDL</button>
+            </div>
+
+            <button class="back-menu-btn" id="backMenuBtn">Zpět do menu</button>
+        </div>
+
+        <!-- VÝSLEDKOVÁ OBRAZOVKA -->
+        <div id="resultScreen" class="hidden">
+            <div class="result-title-text">VÝSLEDEK</div>
+
+            <div class="result-card">
+                <div class="result-message" id="resultMessage">Skvělá práce! Dobře jsi ho zmátl a udržel v omylu!</div>
+                
+                <div class="score-box">
+                    <div class="score-col">
+                        <div class="score-label">TY</div>
+                        <div class="score-num" id="scoreTy">1</div>
+                    </div>
+                    <div style="color: #4b5563; font-size: 1.5rem;">:</div>
+                    <div class="score-col">
+                        <div class="score-label">SPOLUHRÁČ</div>
+                        <div class="score-num" id="scoreSpoluhrac">0</div>
+                    </div>
+                </div>
+
+                <div class="last-word-info">
+                    Hádaná postava: <span id="lastWordSpan">James Bond</span>
+                </div>
+            </div>
+
+            <button class="btn-main" id="nextWordBtn">Další postava</button>
+            <button class="back-menu-btn" id="toMenuBtn">Hlavní menu</button>
+        </div>
+    </div>
+
+    <script>
+        const wordDatabase = {
+            cz: { label: "ČESKÉ POSTAVY", words: ["Karel Gott", "Jaromír Jágr", "Jan Žižka", "Václav Havel", "Jiřina Bohdalová"] },
+            en: { label: "ZAHRANIČNÍ POSTAVY", words: ["Elon Musk", "Arnold Schwarzenegger", "Keanu Reeves", "Taylor Swift", "Michael Jackson"] },
+            film: { label: "HRANÉ FILMOVÉ", words: ["James Bond", "Harry Potter", "Jack Sparrow", "Indiana Jones", "Sherlock Holmes"] },
+            pohadky: { label: "POHÁDKY", words: ["Krakonoš", "Princezna ze mlejna", "Trautenberk", "Rumcajs", "Popelka"] },
+            anim: { label: "ANIMOVANÉ FILMY", words: ["Shrek", "Homer Simpson", "Mickey Mouse", "Spongebob", "Kung Fu Panda"] }
+        };
+
+        const subButtons = document.querySelectorAll('.btn-sub');
+        subButtons.forEach(btn => {
+            btn.addEventListener('click', () => btn.classList.toggle('active'));
+        });
+
+        let activePool = [];
+        let currentItem = null;
+        let scoreTy = 0;
+        let scoreSpoluhrac = 0;
+
+        const setupScreen = document.getElementById('setupScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const shareBtn = document.getElementById('shareBtn');
+        const wordDisplay = document.getElementById('wordDisplay');
+        const categoryLabel = document.getElementById('categoryLabel');
+        
+        const scoreTyEl = document.getElementById('scoreTy');
+        const scoreSpoluhracEl = document.getElementById('scoreSpoluhrac');
+        const lastWordSpan = document.getElementById('lastWordSpan');
+        const resultMessage = document.getElementById('resultMessage');
+
+        document.getElementById('startBtn').addEventListener('click', () => {
+            activePool = [];
+            document.querySelectorAll('.btn-sub.active').forEach(btn => {
+                const catKey = btn.getAttribute('data-cat');
+                if (wordDatabase[catKey]) {
+                    wordDatabase[catKey].words.forEach(w => {
+                        activePool.push({ word: w, label: wordDatabase[catKey].label });
+                    });
+                }
+            });
+
+            if (activePool.length === 0) {
+                alert('Prosím, vyber alespoň jednu kategorii!');
+                return;
+            }
+
+            activePool.sort(() => Math.random() - 0.5);
+            scoreTy = 0;
+            scoreSpoluhrac = 0;
+
+            setupScreen.classList.add('hidden');
+            shareBtn.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            loadNextCard();
+        });
+
+        function loadNextCard() {
+            if (activePool.length === 0) {
+                document.querySelectorAll('.btn-sub.active').forEach(btn => {
+                    const catKey = btn.getAttribute('data-cat');
+                    if (wordDatabase[catKey]) {
+                        wordDatabase[catKey].words.forEach(w => {
+                            activePool.push({ word: w, label: wordDatabase[catKey].label });
+                        });
+                    }
+                });
+                activePool.sort(() => Math.random() - 0.5);
+            }
+            
+            currentItem = activePool.pop();
+            wordDisplay.innerText = currentItem.word;
+            categoryLabel.innerText = currentItem.label;
+        }
+
+        function showResult(tyScored) {
+            if (tyScored) {
+                scoreTy++;
+                resultMessage.innerText = "Skvělá práce! Dobře jsi ho zmátl a udržel v omylu!";
+            } else {
+                scoreSpoluhrac++;
+                resultMessage.innerText = "Spoluhráč to odhalil! Skvělá snaha.";
+            }
+
+            scoreTyEl.innerText = scoreTy;
+            scoreSpoluhracEl.innerText = scoreSpoluhrac;
+            lastWordSpan.innerText = currentItem.word;
+
+            gameScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+        }
+
+        // Tlačítko UHÁDL (podle obrázku: uživatel zmatl spoluhráče = bod pro tebe)
+        document.getElementById('uhadlBtn').addEventListener('click', () => {
+            showResult(true);
+        });
+
+        // Tlačítko NEUHÁDL (spoluhráč to uhodl = bod pro něj)
+        document.getElementById('neuhadlBtn').addEventListener('click', () => {
+            showResult(false);
+        });
+
+        // Další postava z výsledovky
+        document.getElementById('nextWordBtn').addEventListener('click', () => {
+            resultScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            loadNextCard();
+        });
+
+        // Zpět do menu / Hlavní menu
+        function goToMenu() {
+            resultScreen.classList.add('hidden');
+            gameScreen.classList.add('hidden');
+            setupScreen.classList.remove('hidden');
+            shareBtn.classList.remove('hidden');
+        }
+
+        document.getElementById('backMenuBtn').addEventListener('click', goToMenu);
+        document.getElementById('toMenuBtn').addEventListener('click', goToMenu);
+
+        shareBtn.addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'Čelovka', url: window.location.href });
+                } catch (e) {}
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Odkaz zkopírován do schránky!');
+            }
+        });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+</html>
